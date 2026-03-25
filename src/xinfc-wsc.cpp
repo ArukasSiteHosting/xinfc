@@ -436,21 +436,15 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::sae())
     {
-        std::cerr
-            << "Error: WPA3 encryption modes not supported!"
-            << std::endl;
-
-        return false;
+        out_crypt = wifi_crypt_aes;
+        out_auth = wifi_auth_wpa3_personal;
+        return true;
     }
 
     if (mode == wifi_str::sae_mixed())
     {
-        std::cerr
-            << "Warning: Mixed WPA2/WPA3 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_aes;
-        out_auth = wifi_auth_wpa2_personal;
+        out_auth = wifi_auth_wpa2_wpa3_personal;
         return true;
     }
 
@@ -603,21 +597,15 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa3())
     {
-        std::cerr
-            << "Error: WPA3 encryption modes not supported!"
-            << std::endl;
-
-        return false;
+        out_crypt = wifi_crypt_aes;
+        out_auth = wifi_auth_wpa3_enterprise;
+        return true;
     }
 
     if (mode == wifi_str::wpa3_mixed())
     {
-        std::cerr
-            << "Warning: Mixed WPA2/WPA3 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_aes;
-        out_auth = wifi_auth_wpa2_enterprise;
+        out_auth = wifi_auth_wpa2_wpa3_enterprise;
         return true;
     }
 
@@ -707,10 +695,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed_tkip_ccmp())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_tkip_aes;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -718,10 +702,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed_tkip_aes())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_tkip_aes;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -729,10 +709,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed_tkip())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_tkip;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -740,10 +716,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed_ccmp())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_aes;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -751,10 +723,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed_aes())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_aes;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -762,10 +730,6 @@ bool select_encryption_mode(
 
     if (mode == wifi_str::wpa_mixed())
     {
-        std::cerr
-            << "Warning: Mixed WPA/WPA2 will be announced as WPA2!"
-            << std::endl;
-
         out_crypt = wifi_crypt_aes;
         out_auth = wifi_auth_wpa2_enterprise;
         return true;
@@ -800,6 +764,7 @@ void print_usage()
         << " and " << wifi_lenghts::pass_max << " characters." << std::endl
         << "  mode must be one of the following:" << std::endl
         << "    " << wifi_str::none() << std::endl
+        << "    " << wifi_str::sae() << std::endl
         << "    " << wifi_str::sae_mixed() << std::endl
         << "    " << wifi_str::psk2_tkip_ccmp() << std::endl
         << "    " << wifi_str::psk2_tkip_aes() << std::endl
@@ -822,6 +787,7 @@ void print_usage()
         << "    " << wifi_str::wep() << std::endl
         << "    " << wifi_str::wep_open() << std::endl
         << "    " << wifi_str::wep_shared() << std::endl
+        << "    " << wifi_str::wpa3() << std::endl
         << "    " << wifi_str::wpa3_mixed() << std::endl
         << "    " << wifi_str::wpa2_tkip_ccmp() << std::endl
         << "    " << wifi_str::wpa2_tkip_aes() << std::endl
