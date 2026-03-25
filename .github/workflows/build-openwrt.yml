@@ -60,7 +60,7 @@ jobs:
             make download V=s
             make tools/install -j$(nproc) V=s || make tools/install V=s
             make toolchain/install -j$(nproc) V=s || make toolchain/install V=s
-            make -j$(nproc) V=s || make V=s
+            make -j$(nproc) V=s || make V=s REVISION=23333333
 
       - name: Build xinfc
         run: |
