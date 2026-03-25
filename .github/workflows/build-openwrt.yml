@@ -19,26 +19,16 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          cd /
           apt update
           apt -y install \
             perl build-essential libncurses5-dev libmpfr-dev \
             libgmp-dev libpam-dev liblzma-dev file git rsync gawk wget \
             python3 python3-distutils python3-setuptools unzip swig
 
-      - name: Add OpenWRT build user
-        run: |
-          cd /
-          id -u openwrt >/dev/null 2>&1 || useradd openwrt
-          mkdir -p /openwrt
-          chmod 777 /openwrt
-
       - name: Build OpenWRT as regular user
         run: |
-          set -eux
-          su -s /bin/bash openwrt -c '
             set -eux
-            cd /openwrt
+            cd /
 
             wget https://github.com/dimfishr/openwrt/archive/refs/tags/filogic-2025-07-01.zip
             unzip filogic-2025-07-01.zip
@@ -70,13 +60,12 @@ jobs:
             make tools/install -j$(nproc) V=s || make tools/install V=s
             make toolchain/install -j$(nproc) V=s || make toolchain/install V=s
             make -j$(nproc) V=s || make V=s
-          '
 
       - name: Build xinfc
         run: |
           set -eux
 
-          OPENWRT_DIR=/openwrt/openwrt-filogic-2025-07-01
+          OPENWRT_DIR=/openwrt-filogic-2025-07-01
           TOOLCHAIN_DIR=$(find "$OPENWRT_DIR/staging_dir" -maxdepth 1 -type d -name 'toolchain-aarch64_cortex-a53_gcc-*_musl' | head -n1)
           KERNEL_SCRIPTS_DIR=$(find "$OPENWRT_DIR/build_dir/target-aarch64_cortex-a53_musl/linux-mediatek_filogic" -maxdepth 2 -type d -path '*/scripts/dtc' | head -n1)
 
